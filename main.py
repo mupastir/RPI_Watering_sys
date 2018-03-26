@@ -8,7 +8,7 @@ init = False
 
 # GPIO.setmode(GPIO.BOARD) # Broadcom pin-numbering scheme
 
-token = '568828673:AAEl3XVAHfv6VfQ6w-9hJcL0NAFRor2vvZc'
+token = 'your_token'
 bot = telebot.TeleBot(token)
 
 '''
