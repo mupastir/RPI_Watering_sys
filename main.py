@@ -47,9 +47,9 @@ def pump_on(pump_pin=7, delay=1):
     f = open("last_watered.txt", "w")
     f.write("Last watered {}".format(datetime.datetime.now()))
     f.close()
-    GPIO.output(pump_pin, GPIO.LOW)
-    time.sleep(1)
     GPIO.output(pump_pin, GPIO.HIGH)
+    time.sleep(1)
+    GPIO.output(pump_pin, GPIO.LOW)
 
 
 @bot.message_handler(commands=['info'])
