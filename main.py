@@ -1,4 +1,4 @@
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import datetime
 import time
 import telebot
@@ -6,12 +6,13 @@ import config
 
 init = False
 
-# GPIO.setmode(GPIO.BOARD) # Broadcom pin-numbering scheme
+GPIO.setmode(GPIO.BOARD) # Broadcom pin-numbering scheme
 
 token = 'your_token'
 bot = telebot.TeleBot(token)
+authorized_users = [207216763, 579192114]   # id of my users
 
-'''
+
 def get_status(pin=8):
     GPIO.setup(pin, GPIO.IN)
     return GPIO.input(pin)
@@ -49,11 +50,11 @@ def pump_on(pump_pin=7, delay=1):
     GPIO.output(pump_pin, GPIO.LOW)
     time.sleep(1)
     GPIO.output(pump_pin, GPIO.HIGH)
-'''
 
 
 @bot.message_handler(commands=['info'])
 def get_last_watered(message):
+    bot.send_message(message.chat.id, message.from_user.id)
     try:
         f = open("last_watered.txt", "r")
         return bot.send_message(message.chat.id, f.readline())
@@ -68,12 +69,13 @@ def get_last_watered(message):
                      ' enough water in the soil.')
 
 
-'''
 @bot.message_handler(commands=['water'])
 def once_water(message):
-    pump_on(pump_pin, 1)
-    bot.send_message(message.chat.id, 'It has watered once just a moment.')
-'''
+    if message.from_user.id in authorized_users:  # if the id exists in our database
+        pump_on(pump_pin, 1)
+        bot.send_message(message.chat.id, 'It has watered once just a moment.')
+    else:
+        bot.send_message(message.chat.id, 'I have no clue who you are...')
 
 
 if __name__ == '__main__':
