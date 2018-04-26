@@ -20,8 +20,8 @@ def get_status(pin=8):
 
 def init_output(pin):
     GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HUGH)
     GPIO.output(pin, GPIO.LOW)
-    GPIO.output(pin, GPIO.HIGH)
 
 
 def auto_water(delay=5, pump_pin=7, water_sensor_pin=8):
